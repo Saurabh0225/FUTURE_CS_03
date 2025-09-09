@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Secure File Sharing System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .upload-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        input[type="file"] {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .file-list {
+            margin-top: 30px;
+        }
+
+        .file-list h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 12px 20px;
+            border-radius: 5px;
+        }
+
+        .file-name {
+            font-size: 16px;
+        }
+
+        .flash {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            margin: 40px 0;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>🔐 Secure File Sharing System</header>
+
+    <div class="container">
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="upload-section">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" required>
+                <br>
+                <button type="submit">Upload & Encrypt File</button>
+            </form>
+        </div>
+
+        <div class="file-list">
+            <h2>Uploaded Files</h2>
+            {% if files %}
+                {% for file in files %}
+                    <div class="file-item">
+                        <span class="file-name">{{ file }}</span>
+                        <a href="{{ url_for('download', filename=file) }}">
+                            <button>Download</button>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="text-align:center; color: #555;">No files uploaded yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <footer>© 2025 Secure File Sharing System</footer>
+
+</body>
+
+</html>
